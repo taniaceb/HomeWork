@@ -6,7 +6,7 @@ namespace HW_Exercise1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Iveskite viena skaiciu nuo -9 iki 9");
+            Console.WriteLine("Iveskite viena skaiciu nuo -999 iki 999");
             string number = Console.ReadLine();
 
             //Patikrinti, ar buvo ivestas skaicius
@@ -17,18 +17,51 @@ namespace HW_Exercise1
             }
             else
             {
-                Console.WriteLine(CheckIsNumber(number));
-                Console.WriteLine(StringToInt(-9, 9, number));
+                if (CheckIsNumber(number))
+                {
+                    Console.WriteLine("Tai skaicius");
+                    
+                    if (StringToInt(-999, 999, number))
+                    {
+                        int numb = Convert.ToInt32(number);
+                        Console.WriteLine(numb);
+                        Console.WriteLine(StringNumberToText(numb)); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("Skaicius nepriklauso intervalui - 999 iki 999");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Tai ne skaicius");
+                }
+                
+                
             }
-
-            Console.WriteLine(StringNumberToText(186) );
+            //Testas********************
+            Console.WriteLine("Testas");
+            Console.WriteLine();
+            Console.WriteLine(975 + " " + StringNumberToText(975) );
+            Console.WriteLine(-174 + " " + StringNumberToText(-174));
+            Console.WriteLine(-10 + " " + StringNumberToText(-10));
+            //*************************
         }
 
-        static string StringNumberToText(int num)
+        static string StringNumberToText(int numb)
         {
-            
-            string st= "";
+
+            string st = "";
             string st1 = "";
+            string min = "";
+
+            if (numb < 0)
+            {
+                min = "minus ";
+            }
+            int num = Math.Abs(numb);
+
+           
 
             if (num >= 0 && num <= 10)
             {
@@ -175,7 +208,7 @@ namespace HW_Exercise1
                 }
             }
 
-            return st;
+            return min+st;
         }
 
         
