@@ -15,7 +15,7 @@ namespace HW4
 
             MenuController menuCont = new MenuController();
             menuCont.ShowMenu();
-            menuCont.ChooseMeniuButton();
+           // menuCont.ChooseMainMeniuButton();
 
 
 

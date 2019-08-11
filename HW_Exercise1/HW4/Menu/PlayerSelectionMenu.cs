@@ -12,10 +12,11 @@ namespace HW4.Menu
         public List<Button> PlayerMenu = new List<Button>();
         public bool DirectionLeftRight = true;
         public bool DirectionUpDown = true;
-        public bool Direction = true;
+        public int ButtonIndex { get; set; } = 0;
+
         public PlayerSelectionMenu() : base(0, 0, 120, 30, '%')
         {
-            _titleTextBlock = new TextBlock(5, 5, 100, new List<String> { "Choose How Many Players Play" });
+            _titleTextBlock = new TextBlock(5, 5, 100, new List<String> {"Players selection Menu"," ", "Choose How Many Players Play" });
 
             int x = 20;
             int y = 8;
@@ -57,25 +58,24 @@ namespace HW4.Menu
 
         public int CheckActiveButton()
         {
-            int buttonIndex = 0;
+            
             foreach (Button value in PlayerMenu)
             {
                 if (value.IsActive == true)
                 {
-                    buttonIndex = PlayerMenu.IndexOf(value);
+                    ButtonIndex = PlayerMenu.IndexOf(value);
 
                 }
             }
-            return buttonIndex;
+            return ButtonIndex;
         }
 
-        public void MoveMeniuItem()
+        public void MoveMeniuItemLeftRight()
         {
 
             int index = CheckActiveButton();
 
-            if (Direction)
-            { 
+            
             if (DirectionLeftRight)
             {
                 for (int i = 0; i < PlayerMenu.Count; i++)
@@ -104,24 +104,29 @@ namespace HW4.Menu
                 }
                 PlayerMenu[index - 1].SetActive();
             }
-            }
-            else
-            { 
+                       
+            Render();
 
-            if (DirectionUpDown)
-            {
-                for (int i = 0; i < PlayerMenu.Count; i++)
+        }
+        public void MoveMeniuItemUpDown()
+        {
+
+            int index = CheckActiveButton();
+
+             if (DirectionUpDown)
                 {
-                    PlayerMenu[i].SetNotActive();
-                    
+                    for (int i = 0; i < PlayerMenu.Count; i++)
+                    {
+                        PlayerMenu[i].SetNotActive();
+
+                    }
+                    if (index == 3 || index == 4 || index == 5)
+                    {
+                        index -= 3;
+                    }
+                    PlayerMenu[index + 3].SetActive();
                 }
-                if (index == 3 || index ==4 || index ==5)
-                {
-                    index -= 3;
-                }
-                PlayerMenu[index+3].SetActive();
-            }
-            else
+                else
                 {
                     for (int i = 0; i < PlayerMenu.Count; i++)
                     {
@@ -134,9 +139,7 @@ namespace HW4.Menu
                     }
                     PlayerMenu[index - 3].SetActive();
                 }
-
-            }
-
+                         
             Render();
 
         }
