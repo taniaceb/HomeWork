@@ -10,6 +10,8 @@ namespace HW4.Menu
         private Button _startButton;
         private Button _playerButton;
         private TextBlock _titleTextBlock;
+        private TextBlock _sumTextBlock;
+
         private Button _diceArray;
         public List<Button> PlayerArray = new List<Button>();
         public List<Button> DaceArray = new List<Button>();
@@ -21,6 +23,7 @@ namespace HW4.Menu
         public GameWindow(int PlayerIndex, int DiceIndex) : base(0, 0, 120, 30, '*')
         {
             _titleTextBlock = new TextBlock(20, 1, 100, new List<String> { "GAME DICE" });
+           
 
             _startButton = new Button(90, 21, 18, 5, "S - Start");
             _playerIndex = PlayerIndex;

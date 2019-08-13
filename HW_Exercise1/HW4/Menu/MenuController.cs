@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HW4.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace HW4.Menu
         private MainMenu _mainMenu = new MainMenu();
         private PlayerSelectionMenu _playerSelectionMenu = new PlayerSelectionMenu();
         private DiceSelectionMenu _diceSelectionMenu = new DiceSelectionMenu();
-        private GameWindow _gameWindow = new GameWindow(0,0); 
+        private GameWindow _gameWindow = new GameWindow(0, 0);
+        private TextBlock _sumTextBlock;
+
 
         public int IndexPlayer { get; set; } = 0;
         public int DiceIndex { get; set; } = 0;
@@ -74,12 +77,12 @@ namespace HW4.Menu
 
 
                     case ConsoleKey.Enter:
-                         
-                         Console.Clear();
-                      
+
+                        Console.Clear();
+
                         _diceSelectionMenu.Render();
-                         ChooseNumberOfDice();
-                        
+                        ChooseNumberOfDice();
+
                         break;
 
 
@@ -125,8 +128,9 @@ namespace HW4.Menu
         public void StartGame()
         {
             List<int> PlayerSum = new List<int>();
+            List<int> PlayerBalance = new List<int>();
             int sum = 0;
-
+            _sumTextBlock = new TextBlock(20, 5, 100, new List<String> { " " });
             ConsoleKeyInfo pressedChar = Console.ReadKey();
             while (pressedChar.Key != ConsoleKey.End)
             {
@@ -135,21 +139,54 @@ namespace HW4.Menu
 
                     case ConsoleKey.S:
 
-                      for (int i=0; i< _gameWindow.DaceArray.Count(); i++)
+                        for (int i = 0; i < _gameWindow.DaceArray.Count(); i++)
                         {
-                           sum = rand.Next(1, 7);
-                          _gameWindow.DaceArray[i].Label =   " "+ sum;
-                           PlayerSum.Add(sum);
+                            sum = rand.Next(1, 7);
+                            _gameWindow.DaceArray[i].Label = " " + sum;
+                            PlayerSum.Add(sum);
+
                         }
+
+                        int z = 0;
+                        int s = 0;
+                        int sum1 = 0;
+
+
+                        for (int j = 0; j < _gameWindow.PlayerArray.Count(); j++)
+                        {
+                            for (int k = s; k < z + PlayerSum.Count() / _gameWindow.PlayerArray.Count(); k++)
+                            {
+                                sum1 += PlayerSum[k];
+                            }
+
+                            PlayerBalance.Add(sum1);
+                            sum1 = 0;
+                            s += PlayerSum.Count() / _gameWindow.PlayerArray.Count();
+                            z = PlayerSum.Count() / _gameWindow.PlayerArray.Count();
+                        }
+
                         _gameWindow.Render();
 
+
+                        int y = 2;
+                        for (int i =0;i<PlayerBalance.Count;i++)
+                       
+                        {
+                           int a = PlayerBalance[i];
+
+
+                            _sumTextBlock = new TextBlock(60+i, y+10, 10, new List<String> { "Suma " + a});
+                        }
+
+                       
+                      //  _sumTextBlock.Render();
                         break;
 
                     case ConsoleKey.Add:
-                       
+
                         break;
                     case ConsoleKey.Subtract:
-                      
+
                         break;
 
                 }
@@ -158,10 +195,10 @@ namespace HW4.Menu
             }
         }
 
-    
+
         public void ChooseNumberOfDice()
         {
-           
+
             ConsoleKeyInfo pressedChar = Console.ReadKey();
             while (pressedChar.Key != ConsoleKey.End)
             {
@@ -169,10 +206,10 @@ namespace HW4.Menu
                 {
 
                     case ConsoleKey.Enter:
-                       
+
                         Console.Clear();
                         // _gameWindow.PlayerIndex = IndexPlayer;
-                      
+
                         DiceIndex = _diceSelectionMenu.DiceNumber;
                         ShowGameWidow();
                         _gameWindow.Render();
