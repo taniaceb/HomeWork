@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace HW4.Menu
@@ -13,6 +14,8 @@ namespace HW4.Menu
 
         public int IndexPlayer { get; set; } = 0;
         public int DiceIndex { get; set; } = 0;
+
+        Random rand = new Random();
 
         public MenuController()
         {
@@ -112,6 +115,50 @@ namespace HW4.Menu
             }
         }
 
+        public void ShowGameWidow()
+        {
+            _gameWindow = new GameWindow(IndexPlayer, DiceIndex);
+        }
+
+
+
+        public void StartGame()
+        {
+            List<int> PlayerSum = new List<int>();
+            int sum = 0;
+
+            ConsoleKeyInfo pressedChar = Console.ReadKey();
+            while (pressedChar.Key != ConsoleKey.End)
+            {
+                switch (pressedChar.Key)
+                {
+
+                    case ConsoleKey.S:
+
+                      for (int i=0; i< _gameWindow.DaceArray.Count(); i++)
+                        {
+                           sum = rand.Next(1, 7);
+                          _gameWindow.DaceArray[i].Label =   " "+ sum;
+                           PlayerSum.Add(sum);
+                        }
+                        _gameWindow.Render();
+
+                        break;
+
+                    case ConsoleKey.Add:
+                       
+                        break;
+                    case ConsoleKey.Subtract:
+                      
+                        break;
+
+                }
+                pressedChar = Console.ReadKey();
+
+            }
+        }
+
+    
         public void ChooseNumberOfDice()
         {
            
@@ -127,8 +174,9 @@ namespace HW4.Menu
                         // _gameWindow.PlayerIndex = IndexPlayer;
                       
                         DiceIndex = _diceSelectionMenu.DiceNumber;
-                        _gameWindow = new GameWindow(IndexPlayer, DiceIndex);
+                        ShowGameWidow();
                         _gameWindow.Render();
+                        StartGame();
 
                         break;
 
