@@ -9,23 +9,26 @@ namespace HW4.Menu
         private MainMenu _mainMenu = new MainMenu();
         private PlayerSelectionMenu _playerSelectionMenu = new PlayerSelectionMenu();
         private DiceSelectionMenu _diceSelectionMenu = new DiceSelectionMenu();
-        private GameWindow _gameWindow = new GameWindow();
+        private GameWindow _gameWindow = new GameWindow(0,0); 
+
+        public int IndexPlayer { get; set; } = 0;
+        public int DiceIndex { get; set; } = 0;
 
         public MenuController()
         {
-           
+
         }
 
         public void ShowMenu()
         {
             _mainMenu.Render();
             ChooseMainMeniuButton();
-         }
+        }
 
 
         public void ShowPlayersMenu()
         {
-           _playerSelectionMenu.Render();
+            _playerSelectionMenu.Render();
             ChoosePlayersMeniuButton();
 
         }
@@ -48,8 +51,8 @@ namespace HW4.Menu
 
                         // Console.SetCursorPosition(0, 0);
                         Console.Clear();
-                         break;
-                  
+                        break;
+
                 }
                 pressedChar = Console.ReadKey();
 
@@ -65,13 +68,15 @@ namespace HW4.Menu
             {
                 switch (pressedChar.Key)
                 {
-                   
 
-                   case ConsoleKey.Enter:
-                        Console.Clear();
+
+                    case ConsoleKey.Enter:
+                         
+                         Console.Clear();
+                      
                         _diceSelectionMenu.Render();
-                        ChooseNumberOfDice();
-
+                         ChooseNumberOfDice();
+                        
                         break;
 
 
@@ -79,22 +84,26 @@ namespace HW4.Menu
 
                         _playerSelectionMenu.DirectionLeftRight = true;
                         _playerSelectionMenu.MoveMeniuItemLeftRight();
+                        IndexPlayer = _playerSelectionMenu.CheckActiveButton();
 
                         break;
                     case ConsoleKey.LeftArrow:
                         _playerSelectionMenu.DirectionLeftRight = false;
                         _playerSelectionMenu.MoveMeniuItemLeftRight();
+                        IndexPlayer = _playerSelectionMenu.CheckActiveButton();
 
                         break;
                     case ConsoleKey.DownArrow:
                         _playerSelectionMenu.DirectionUpDown = true;
                         _playerSelectionMenu.MoveMeniuItemUpDown();
+                        IndexPlayer = _playerSelectionMenu.CheckActiveButton();
 
                         break;
 
                     case ConsoleKey.UpArrow:
                         _playerSelectionMenu.DirectionUpDown = false;
                         _playerSelectionMenu.MoveMeniuItemUpDown();
+                        IndexPlayer = _playerSelectionMenu.CheckActiveButton();
 
                         break;
                 }
@@ -105,7 +114,7 @@ namespace HW4.Menu
 
         public void ChooseNumberOfDice()
         {
-
+           
             ConsoleKeyInfo pressedChar = Console.ReadKey();
             while (pressedChar.Key != ConsoleKey.End)
             {
@@ -113,14 +122,16 @@ namespace HW4.Menu
                 {
 
                     case ConsoleKey.Enter:
-                       Console.Clear();
-                        _gameWindow.PlayerIndex = _playerSelectionMenu.ButtonIndex;
-                        _gameWindow.DiceIndex = _diceSelectionMenu.DiceNumber;
-                         _gameWindow.Render();
-               
-
+                       
+                        Console.Clear();
+                        // _gameWindow.PlayerIndex = IndexPlayer;
+                      
+                        DiceIndex = _diceSelectionMenu.DiceNumber;
+                        _gameWindow = new GameWindow(IndexPlayer, DiceIndex);
+                        _gameWindow.Render();
 
                         break;
+
                     case ConsoleKey.Add:
                         if (_diceSelectionMenu.DiceNumber == 6)
                         {
@@ -130,7 +141,7 @@ namespace HW4.Menu
                         {
                             _diceSelectionMenu.DiceNumber++;
                             _diceSelectionMenu.Render();
-                            
+
                         }
                         break;
                     case ConsoleKey.Subtract:

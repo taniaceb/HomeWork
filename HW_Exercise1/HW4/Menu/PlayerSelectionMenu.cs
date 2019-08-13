@@ -44,7 +44,7 @@ namespace HW4.Menu
 
         public override void Render()
         {
-            // base.Render();
+            //base.Render();
 
             _titleTextBlock.Render();
 
